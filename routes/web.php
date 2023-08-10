@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\MemberController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth :: routes (
+    [
+        'register' => false,
+    ]
+);
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
+});
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('/', function () {
+        return view('dashboard.index');
+    });
+    Route::resource('books', BookController::class);
+    Route::resource('members', MemberController::class);
 });
